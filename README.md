@@ -1,3 +1,80 @@
+# ✈️ Proyecto API Aerolíneas y Aeropuertos
+
+Este proyecto es una API REST desarrollada con NestJS que permite gestionar aerolíneas, aeropuertos y su asociación.
+
+---
+
+## 🚀 Instrucciones para ejecutar el proyecto
+
+### 1. 🐳 Iniciar la base de datos PostgreSQL con Docker
+
+Asegúrate de tener Docker instalado, luego ejecuta:
+
+```bash
+docker-compose up -d
+```
+
+> Esto levantará un contenedor con PostgreSQL usando la configuración definida en `docker-compose.yml`.
+
+---
+
+### 2. 📦 Instalar dependencias del proyecto
+
+Desde la raíz del proyecto:
+
+```bash
+npm install
+```
+
+---
+
+### 3. ⚙️ Verificar configuración de TypeORM
+
+Confirma que `app.module.ts` tenga algo similar a esto:
+
+```ts
+TypeOrmModule.forRoot({
+  type: 'postgres',
+  host: 'localhost',
+  port: 5432,
+  username: 'postgres',
+  password: 'postgres',
+  database: 'aerolineas',
+  autoLoadEntities: true,
+  synchronize: true,
+});
+```
+
+---
+
+### 4. 🏁 Iniciar el servidor NestJS
+
+```bash
+npm run start:dev
+```
+
+La API quedará corriendo en:  
+👉 `http://localhost:3000`
+
+---
+
+## 🧪 Pruebas con Postman
+
+1. Abre Postman.
+2. Importa las colecciones desde la carpeta `/collections`:
+   - `Aerolíneas-Aeropuertos.postman_collection.json`
+   - `Aerolineas.postman_collection.json`
+   - `Aeropuertos.postman_collection.json`
+3. Ejecuta primero la carpeta **"Inicialización"** si está presente.
+4. Luego corre las pruebas de cada grupo.
+
+---
+
+## 📂 Estructura del proyecto
+
+- `src/` — Código fuente de la API
+- `docker-compose.yml` — Configuración de PostgreSQL
+- `collections/` — Pruebas Postman
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>

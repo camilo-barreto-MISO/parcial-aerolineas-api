@@ -1,0 +1,401 @@
+{
+  "info": {
+    "name": "Asociaci\u00f3n Aerol\u00ednea-Aeropuerto",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Inicializaci\u00f3n",
+      "item": [
+        {
+          "name": "Crear Aerol\u00ednea",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Debe crear aerol\u00ednea\", () => pm.response.to.have.status(201));",
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set(\"airlineId\", json.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/airlines",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "airlines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"AeroTest\",\n  \"descripcion\": \"Inicializaci\\u00f3n\",\n  \"fechaFundacion\": \"2000-01-01\",\n  \"paginaWeb\": \"https://aero.test\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Crear Aeropuerto",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Debe crear aeropuerto\", () => pm.response.to.have.status(201));",
+                  "const json = pm.response.json();",
+                  "pm.collectionVariables.set(\"airportId\", json.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3000/airports",
+              "host": [
+                "localhost"
+              ],
+              "port": "3000",
+              "path": [
+                "airports"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"El Dorado\",\n  \"codigo\": \"BOG\",\n  \"pais\": \"Colombia\",\n  \"ciudad\": \"Bogot\\u00e1\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Asociar aeropuerto a aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200 o 201\", function () {",
+              "    pm.expect([200, 201]).to.include(pm.response.code);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}/airports/{{airportId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}",
+            "airports",
+            "{{airportId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Obtener todos los aeropuertos de una aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Debe retornar un array\", function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}/airports",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}",
+            "airports"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Obtener aeropuerto espec\u00edfico de una aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Debe retornar un aeropuerto\", function () {",
+              "  var json = pm.response.json();",
+              "  pm.expect(json.id).to.eql(parseInt(pm.collectionVariables.get(\"airportId\")));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}/airports/{{airportId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}",
+            "airports",
+            "{{airportId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Actualizar todos los aeropuertos de una aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}/airports",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}",
+            "airports"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[{{airportId}}]"
+        }
+      }
+    },
+    {
+      "name": "Eliminar aeropuerto de una aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200 o 204\", function () { pm.expect([200,204]).to.include(pm.response.code); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}/airports/{{airportId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}",
+            "airports",
+            "{{airportId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Asociar aeropuerto inexistente a aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "http://localhost:3000/airlines/1/airports/9999",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "1",
+            "airports",
+            "9999"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Obtener aeropuerto no asociado a una aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/airlines/1/airports/9999",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "1",
+            "airports",
+            "9999"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Actualizar aerol\u00ednea con aeropuerto inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/airlines/1/airports",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "1",
+            "airports"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "[9999]"
+        }
+      }
+    },
+    {
+      "name": "Eliminar aeropuerto no asociado de una aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status 200 o 404\", function () { pm.expect([200, 404]).to.include(pm.response.code); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/airlines/1/airports/9999",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "1",
+            "airports",
+            "9999"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "airlineId",
+      "value": "1"
+    },
+    {
+      "key": "airportId",
+      "value": "1"
+    }
+  ]
+}

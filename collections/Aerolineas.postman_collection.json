@@ -1,0 +1,314 @@
+{
+  "info": {
+    "name": "Aerol\u00edneas",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Crear aerol\u00ednea v\u00e1lida",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 201\", function () { pm.response.to.have.status(201); });",
+              "var json = pm.response.json();",
+              "pm.collectionVariables.set(\"airlineId\", json.id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/airlines",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"AeroTest\",\n  \"descripcion\": \"Aerol\\u00ednea de prueba\",\n  \"fechaFundacion\": \"2000-01-01\",\n  \"paginaWeb\": \"https://aerotest.com\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Crear aerol\u00ednea inv\u00e1lida",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 400\", function () { pm.response.to.have.status(400); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/airlines",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"\",\n  \"descripcion\": \"\",\n  \"fechaFundacion\": \"2999-01-01\",\n  \"paginaWeb\": \"no-es-url\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Obtener todas las aerol\u00edneas",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Debe retornar un array\", function () { pm.expect(pm.response.json()).to.be.an('array'); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/airlines",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Obtener aerol\u00ednea por ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Debe retornar la aerol\u00ednea correcta\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.id).to.eql(parseInt(pm.collectionVariables.get(\"airlineId\")));",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Actualizar aerol\u00ednea",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200\", function () { pm.response.to.have.status(200); });",
+              "pm.test(\"Debe retornar el nombre actualizado\", function () {",
+              "    var json = pm.response.json();",
+              "    pm.expect(json.nombre).to.eql(\"Aero Actualizada\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Aero Actualizada\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Eliminar aerol\u00ednea por ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 200 o 204\", function () { pm.expect([200,204]).to.include(pm.response.code); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/airlines/{{airlineId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "{{airlineId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Obtener aerol\u00ednea inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:3000/airlines/9999",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "9999"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Actualizar aerol\u00ednea inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/airlines/9999",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "9999"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"No Existe\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Eliminar aerol\u00ednea inexistente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status 404\", function () { pm.response.to.have.status(404); });"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "http://localhost:3000/airlines/9999",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "airlines",
+            "9999"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "airlineId",
+      "value": ""
+    }
+  ]
+}
