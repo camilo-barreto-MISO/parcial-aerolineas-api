@@ -5,6 +5,7 @@ import { Aeropuerto } from '../aeropuerto/entities/aeropuerto';
 import { AerolineaAeropuertoService } from './aerolinea-aeropuerto.service';
 import { AerolineaModule } from '../aerolinea/aerolinea.module';
 import { AeropuertoModule } from '../aeropuerto/aeropuerto.module';
+import { AerolineaAeropuertoController } from './aerolinea-aeropuerto.controller';
 
 @Module({
   imports: [
@@ -13,5 +14,6 @@ import { AeropuertoModule } from '../aeropuerto/aeropuerto.module';
     AeropuertoModule,
   ],
   providers: [AerolineaAeropuertoService],
+  controllers: [AerolineaAeropuertoController],
 })
 export class AerolineaAeropuertoModule {}
