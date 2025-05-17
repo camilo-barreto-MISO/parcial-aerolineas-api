@@ -4,6 +4,7 @@ import { Aerolinea } from './aerolinea/entities/aerolinea';
 import { Aeropuerto } from './aeropuerto/entities/aeropuerto';
 import { AerolineaModule } from './aerolinea/aerolinea.module';
 import { AeropuertoModule } from './aeropuerto/aeropuerto.module';
+import { AerolineaAeropuertoModule } from './aerolinea-aeropuerto/aerolinea-aeropuerto.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AeropuertoModule } from './aeropuerto/aeropuerto.module';
     AerolineaModule,
     AeropuertoModule,
     TypeOrmModule.forFeature([Aerolinea, Aeropuerto]),
+    AerolineaAeropuertoModule,
   ],
 })
 export class AppModule {}
